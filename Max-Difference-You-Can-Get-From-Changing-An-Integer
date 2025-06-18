@@ -1,0 +1,26 @@
+// Max-Difference-You-Can-Get-From-Changing-An-Integer //
+
+class Solution:
+    def maxDiff(self, num: int) -> int:
+        strNum = str(num)
+        i = 0
+        large = small = -1
+        leading = strNum[0]
+
+        while i < len(strNum) and (large == -1 or small == -1):
+            if strNum[i] != "9" and large == -1:
+                large = int(strNum.replace(strNum[i], "9"))
+
+            if(
+                (i == 0 and strNum[i] != "1") or
+                (i > 0 and strNum[i] != "0" and strNum[i] != leading)
+            ) and small == -1:
+                small = int(strNum.replace(strNum[i], "1" if i == 0 else "0"))
+            i += 1
+
+        if large == -1:
+            large = num
+        if small == -1:
+            small = num
+
+        return large - small                
