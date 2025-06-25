@@ -1,0 +1,43 @@
+//  3272. Find the Count of Good Integers  //
+
+
+
+class Solution {
+public:
+    long long fact(int x) {
+        long long f = 1;
+        for (int i = 2; i <= x; i++)
+            f *= i;
+        return f;
+    }
+    long long countGoodIntegers(int n, int k) {
+        int halfLen = (n + 1) / 2;
+        int low = pow(10, halfLen - 1);
+        int high = pow(10, halfLen);
+        long long res = 0;
+        unordered_set<string> used;
+        for (int i = low; i < high; ++i) {
+            string a = to_string(i);
+            string b = {a.rbegin(), a.rend()};
+            string p = a + b.substr(n % 2);
+            if (stoll(p) % k != 0)
+                continue;
+            string s = p;
+            sort(s.begin(), s.end());
+            if (used.count(s))
+                continue;
+            used.insert(s);
+            vector<int> freq(10, 0);
+            for (char ch : p)
+                freq[ch - '0']++;
+            int nz = n - freq[0];
+            long long total = nz * fact(n - 1);
+            for (int f : freq) {
+                if (f > 1)
+                    total /= fact(f);
+            }
+            res += total;
+        }
+        return res;
+    }
+};
