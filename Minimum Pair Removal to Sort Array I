@@ -1,0 +1,35 @@
+//  3507. Minimum Pair Removal to Sort Array I   //
+
+
+
+class Solution {
+public:
+    int minimumPairRemoval(vector<int>& nums) {
+
+using namespace std;
+
+    int operations = 0;
+    while (!is_sorted(nums.begin(), nums.end())) {
+        int minSum = INT_MAX;
+        int minIndex = -1;
+        for (size_t i = 0; i < nums.size() - 1; ++i) {
+            if (nums[i] + nums[i + 1] < minSum) {
+                minSum = nums[i] + nums[i + 1];
+                minIndex = i;
+            }
+        }
+        nums[minIndex] = minSum;
+        nums.erase(nums.begin() + minIndex + 1);
+        operations++;
+    }
+    return operations;
+}
+
+int main() {
+    vector<int> nums = {5, 2, 3, 1};
+    int result = minimumPairRemoval(nums);
+    cout << "Minimum operations: " << result << endl;
+    return 0;
+}
+    
+};
