@@ -1,0 +1,29 @@
+//  841. Keys and Rooms   //
+
+
+
+class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& arr) {
+        
+        int n=arr.size();
+        set<int> vis;
+        queue<int> q;
+        vis.insert(0);
+        q.push(0);
+
+        while(q.size()) {
+            int curr=q.front();
+            q.pop();
+
+            for(int i=0;i<arr[curr].size();i++) {
+                if(vis.find(arr[curr][i]) == vis.end()) {
+                    q.push(arr[curr][i]);
+                    vis.insert(arr[curr][i]);
+                }
+            }
+        }
+
+        return n==vis.size();
+    }
+};
