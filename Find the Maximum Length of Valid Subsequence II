@@ -1,0 +1,25 @@
+//  3202. Find the Maximum Length of Valid Subsequence II   //
+
+
+
+
+
+class Solution {
+    public int maximumLength(int[] nums, int k) {
+        int maxLenght = 2;
+        int[] dp = new int[k];
+
+        for(int target = 0; target < k; target++){
+            Arrays.fill(dp,0);
+
+            for(int num : nums){
+                int mod = num % k;
+                int prevMod = (target-mod + k) % k;
+                dp[mod] = dp[prevMod] + 1;
+                maxLenght = Math.max(maxLenght, dp[mod]);
+            }
+        }
+        return maxLenght;
+    }
+
+}
