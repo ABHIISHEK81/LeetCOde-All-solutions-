@@ -1,0 +1,17 @@
+//  3487. Maximum Unique Subarray Sum After Deletion  //
+
+
+
+
+
+class Solution(object):
+    def maxSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        s = set(nums)
+        result = sum(x for x in s if x > 0)
+        if result == 0:
+            result = max(s)
+        return result   
