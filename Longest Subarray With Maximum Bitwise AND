@@ -1,0 +1,21 @@
+//  2419. Longest Subarray With Maximum Bitwise AND   //
+
+
+
+
+
+class Solution(object):
+    def longestSubarray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        max_val = max(nums)
+        size = ans = 0
+        for num in nums:
+            if num == max_val:
+                size += 1
+                ans = max(ans, size)
+            else:
+                size = 0
+        return ans            
