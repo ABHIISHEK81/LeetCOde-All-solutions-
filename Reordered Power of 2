@@ -1,0 +1,34 @@
+//   869. Reordered Power of 2   //
+
+
+
+
+
+class Solution(object):
+    def reorderedPowerOf2(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        string=str(n)
+        arr=[i for i in string]
+        arr.sort()
+
+        length=len(string)
+        two_powers=[]
+        power=1
+
+        while(1):
+            two_powers.append(str(power))
+            power*=2
+      
+            if len(str(power))>length:
+                break
+
+        for i in two_powers:
+            temp=[j for j in i]
+            temp.sort()
+            if arr==temp:
+                return True
+        return False
+        
