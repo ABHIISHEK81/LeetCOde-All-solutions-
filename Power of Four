@@ -1,0 +1,37 @@
+//   342. Power of Four  //
+
+
+
+
+
+Pythonn Solution
+
+class Solution(object):
+    def isPowerOfFour(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        if n <= 0:
+            return False
+        if n == 1:
+            return True
+        x = 4
+        while x <= n:
+            if  x == n:
+                return True
+            x *= 4
+        return False                
+
+
+
+C++ Solution
+
+class Solution {
+public:
+    bool isPowerOfFour(int n) {
+        if (n <= 0) return 0;
+        int exp = 31 - countl_zero((unsigned)n);
+        return (exp&1) == 0 && n == 1 << exp;
+    }
+};
