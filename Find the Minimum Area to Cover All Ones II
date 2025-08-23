@@ -1,0 +1,69 @@
+//  3197. Find the Minimum Area to Cover All Ones II  //
+
+class Solution(object):
+    def minimumSum(self, grid):
+        n, m = len(grid), len(grid[0])
+
+  
+        pref = [[0] * (m + 1) for _ in range(n + 1)]
+        for i in range(n):
+            for j in range(m):
+                pref[i+1][j+1] = (grid[i][j] +
+                                  pref[i][j+1] +
+                                  pref[i+1][j] -
+                                  pref[i][j])
+
+        def has_one(u, d, l, r):
+            return (pref[d+1][r+1] - pref[u][r+1] - pref[d+1][l] + pref[u][l]) > 0
+
+
+        def area(u, d, l, r):
+            if not has_one(u, d, l, r):
+                return float("inf")
+            min_i, max_i, min_j, max_j = d, u, r, l
+            for i in range(u, d+1):
+                for j in range(l, r+1):
+                    if grid[i][j] == 1:
+                        min_i, max_i = min(min_i, i), max(max_i, i)
+                        min_j, max_j = min(min_j, j), max(max_j, j)
+            return (max_i - min_i + 1) * (max_j - min_j + 1)
+
+        res = n * m
+
+        for i in range(n - 2):
+            for j in range(i + 1, n - 1):
+                res = min(res,
+                          area(0, i, 0, m - 1) +
+                          area(i+1, j, 0, m - 1) +
+                          area(j+1, n-1, 0, m - 1))
+
+
+        for i in range(m - 2):
+            for j in range(i + 1, m - 1):
+                res = min(res,
+                          area(0, n-1, 0, i) +
+                          area(0, n-1, i+1, j) +
+                          area(0, n-1, j+1, m-1))
+        for i in range(n - 1):
+            for j in range(m - 1):
+                res = min(res,
+                         
+                          area(0, i, 0, m-1) +
+                          area(i+1, n-1, 0, j) +
+                          area(i+1, n-1, j+1, m-1),
+                         
+                          area(0, i, 0, j) +
+                          area(0, i, j+1, m-1) +
+                          area(i+1, n-1, 0, m-1),
+                          
+                          area(0, n-1, 0, j) +
+                          area(0, i, j+1, m-1) +
+                          area(i+1, n-1, j+1, m-1),
+                   
+                          area(0, i, 0, j) +
+                          area(i+1, n-1, 0, j) +
+                          area(0, n-1, j+1, m-1))
+        return res
+
+
+
