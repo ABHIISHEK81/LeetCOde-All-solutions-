@@ -1,0 +1,46 @@
+//  3446. Sort Matrix by Diagonals  //
+
+
+
+
+
+
+class Solution(object):
+    def sortMatrix(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        n=len(grid) 
+        def store(r,c):
+            t=[] 
+            i,j=r,c
+            while i<n and j<n:
+                t.append(grid[i][j]) 
+                i+=1
+                j+=1
+            return t
+        def put(r,c,t): 
+            i,j=r,c
+            k=0 
+            while i<n and j<n: 
+                grid[i][j]=t[k] 
+                i+=1
+                j+=1
+                k+=1
+        for r in range(n): 
+            a=store(r,0) 
+            a.sort(reverse=True) 
+            put(r,0,a) 
+        for c in range(1,n): 
+            a=store(0,c) 
+            a.sort() 
+            put(0,c,a)
+        return grid
+
+
+
+
+
+
+        
