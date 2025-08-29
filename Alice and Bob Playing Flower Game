@@ -1,0 +1,19 @@
+//   3021. Alice and Bob Playing Flower Game   //
+
+
+
+
+
+
+class Solution(object):
+    def flowerGame(self, n, m):
+        """
+        :type n: int
+        :type m: int
+        :rtype: int
+        """
+        evenN = n // 2
+        oddN = n - evenN
+        evenM = m // 2
+        oddM = m - evenM
+        return oddN * evenM + evenN * oddM
