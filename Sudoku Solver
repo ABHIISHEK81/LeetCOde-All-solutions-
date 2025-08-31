@@ -1,0 +1,38 @@
+//  37. Sudoku Solver  //
+
+
+
+
+
+
+class Solution(object):
+    def solveSudoku(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: None Do not return anything, modify board in-place instead.
+        """
+        row=[[False]*9 for _ in range(9)]
+        col=[[False]*9 for _ in range(9)]
+        box=[[False]*9 for _ in range(9)]
+
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] != '.':
+                    num=int(board[i][j])-1
+                    row[i][num]=col[j][num]=box[(i//3)*3+j//3][num]=True
+
+        def backtrack(r,c):
+            if r==9: return True
+            if c==9: return backtrack(r+1,0)
+            if board[r][c] != '.': return backtrack(r,c+1)
+
+            for num in range(9):
+                if not row[r][num] and not col[c][num] and not box[(r//3)*3+c//3][num]:
+                    board[r][c]=str(num+1)
+                    row[r][num]=col[c][num]=box[(r//3)*3+c//3][num]=True
+                    if backtrack(r,c+1): return True
+                    board[r][c]='.'
+                    row[r][num]=col[c][num]=box[(r//3)*3+c//3][num]=False
+            return False
+
+        backtrack(0,0)
