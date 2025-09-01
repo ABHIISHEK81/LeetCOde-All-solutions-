@@ -1,0 +1,31 @@
+//  1792. Maximum Average Pass Ratio  //
+
+
+
+import heapq
+
+class Solution(object):
+    def maxAverageRatio(self, classes, extraStudents):
+        pq = []
+        for passes, total in classes:
+            current_ratio = float(passes) / total
+            new_ratio = float(passes + 1) / (total + 1)
+            heapq.heappush(pq, (-(new_ratio - current_ratio), passes, total))
+
+        while extraStudents > 0:
+            _, passes, total = heapq.heappop(pq)
+            passes += 1
+            total += 1
+            current_ratio = float(passes) / total
+            new_ratio = float(passes + 1) / (total + 1)
+            heapq.heappush(pq, (-(new_ratio - current_ratio), passes, total))
+            extraStudents -= 1
+
+        sum_ratios = 0
+        while pq:
+            _, passes, total = heapq.heappop(pq)
+            sum_ratios += float(passes) / total
+
+        return sum_ratios / len(classes)
+
+
