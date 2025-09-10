@@ -1,0 +1,51 @@
+//   1733. Minimum Number of People to Teach   //
+
+
+
+
+
+
+class Solution(object):
+    def minimumTeachings(self, n, languages, friendships):
+        """
+        :type n: int
+        :type languages: List[List[int]]
+        :type friendships: List[List[int]]
+        :rtype: int
+        """
+    
+        best = len(languages) * 2  
+
+      
+        languages = [set(language) for language in languages]
+
+        # Try making each language (1 through n) the "common language" to teach.
+        for lang in range(1, n+1):
+            thislang = 0        # Number of users who need to learn 'lang'
+            langset = set()     # Track users already counted for this language
+
+            # Iterate over all friendships
+            for f1, f2 in friendships:
+                if thislang >= best:
+                    # Early stop if worse than current best
+                    break
+
+                f1l = languages[f1-1]  # Languages known by user f1
+                f2l = languages[f2-1]  # Languages known by user f2
+
+                # If they share a common language, no teaching needed
+                if f1l.intersection(f2l):
+                    continue
+                
+                # Otherwise, they can't communicate → must teach them 'lang'
+                if lang not in f1l and f1 not in langset:
+                    thislang += 1
+                    langset.add(f1)
+                if lang not in f2l and f2 not in langset:
+                    thislang += 1
+                    langset.add(f2)
+                    
+            # Update best result across all possible chosen languages
+            best = min(best, thislang)
+        
+        return best
