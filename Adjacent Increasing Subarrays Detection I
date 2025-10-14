@@ -1,0 +1,32 @@
+//  3349. Adjacent Increasing Subarrays Detection I  //
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def hasIncreasingSubarrays(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
+        r = k
+        counter = 1
+        if k == 1:
+            return True
+        for l in range(1,len(nums)-r):
+            print(l)
+            if nums[l]>nums[l-1]and nums[r+1]>nums[r]:
+                counter += 1
+                if counter ==k:
+                    return True
+                r += 1
+            else:
+                    counter = 1
+                    r =l+k
+        return False               
