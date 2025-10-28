@@ -1,0 +1,40 @@
+//  3354. Make Array Elements Equal to Zero  //
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def countValidSelections(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        n = len(nums)
+        ans = 0
+
+        for i in range(n):
+            if nums[i] != 0:
+                continue
+
+            for dir in [-1, 1]:
+                temp = nums[:]
+                curr = i
+                move = dir
+
+                while 0 <= curr < n:
+                    if temp[curr] == 0:
+                        curr += move
+                    else:
+                        temp[curr] -= 1
+                        move *= -1
+                        curr += move
+
+                if all(x == 0 for x in temp):
+                    ans += 1
+        return ans                                   
