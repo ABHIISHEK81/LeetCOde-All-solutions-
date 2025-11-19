@@ -1,0 +1,22 @@
+//  2154. Keep Multiplying Found Values by Two  //
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def findFinalValue(self, nums, original):
+        """
+        :type nums: List[int]
+        :type original: int
+        :rtype: int
+        """
+        x = {val: idx for idx, val in enumerate(nums)}
+        while original in x:
+            original *= 2
+        return original    
