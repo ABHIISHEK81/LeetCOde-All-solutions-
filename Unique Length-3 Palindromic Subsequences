@@ -1,0 +1,40 @@
+//  1930. Unique Length-3 Palindromic Subsequences  //
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def countPalindromicSubsequence(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        n = len(s)
+        first = [-1] * 26
+        last = [-1] * 26
+
+       
+        for i, ch in enumerate(s):
+            idx = ord(ch) - ord('a')
+            if first[idx] == -1:
+                first[idx] = i
+            last[idx] = i
+
+        result = 0
+
+       
+        for c in range(26):
+            if first[c] != -1 and last[c] != -1 and first[c] < last[c]:
+
+                middle_chars = set(s[first[c] + 1 : last[c]])
+                result += len(middle_chars)
+
+        return result
