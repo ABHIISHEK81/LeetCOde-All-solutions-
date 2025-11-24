@@ -1,0 +1,29 @@
+//   1018. Binary Prefix Divisible By 5  //
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def prefixesDivBy5(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[bool]
+        """
+        result = []
+        value_mod_5 = 0 
+
+        for bit in nums:
+
+            value_mod_5 = (value_mod_5*2 + bit) % 5
+
+            result.append(value_mod_5 == 0)
+
+        return result    
