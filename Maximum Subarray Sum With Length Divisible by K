@@ -1,0 +1,38 @@
+//  3381. Maximum Subarray Sum With Length Divisible by K  //
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def maxSubarraySum(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        n = len(nums)
+        prefix = 0
+    
+        minPrefix = [float('inf')] * k
+        minPrefix[0] = 0  
+        
+        result = -10**30  
+        
+        for i, num in enumerate(nums):
+            prefix += num
+            mod = (i + 1) % k
+            
+            if minPrefix[mod] != float('inf'):
+                result = max(result, prefix - minPrefix[mod])
+            
+            minPrefix[mod] = min(minPrefix[mod], prefix)
+        
+        return result
