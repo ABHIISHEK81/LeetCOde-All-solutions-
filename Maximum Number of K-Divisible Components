@@ -1,0 +1,47 @@
+//  2872. Maximum Number of K-Divisible Components  //
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def maxKDivisibleComponents(self, n, edges, values, k):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :type values: List[int]
+        :type k: int
+        :rtype: int
+        """
+        from collections import defaultdict, deque
+
+        g =defaultdict(list)
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+
+        self.result = 0
+
+        def dfs(node, parent):
+            total = values[node]
+
+            for nei in g[node]:
+                if nei == parent:
+                    continue
+                child_sum = dfs(nei, node)
+
+                if child_sum % k == 0:
+                    self.result += 1
+                else:
+                    total += child_sum
+
+            return total
+        dfs(0, -1)
+        return self.result + (1 if sum(values) % k == 0 else 0)                       
