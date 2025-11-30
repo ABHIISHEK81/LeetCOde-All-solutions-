@@ -1,0 +1,39 @@
+//  1590. Make Sum Divisible by P  //
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def minSubarray(self, nums, p):
+        """
+        :type nums: List[int]
+        :type p: int
+        :rtype: int
+        """
+        total = sum(nums)
+        rem = total % p
+        if rem == 0:
+            return 0
+
+        prefix = 0
+        seen = {0: -1}    
+        res = len(nums)
+
+        for i, num in enumerate(nums):
+            prefix = (prefix + num) % p
+            need = (prefix - rem) % p
+
+            if need in seen:
+                res =  min(res, i - seen[need])
+
+            seen[prefix] = i
+
+        return res if res < len(nums) else -1        
