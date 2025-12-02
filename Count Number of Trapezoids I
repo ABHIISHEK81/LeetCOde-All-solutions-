@@ -1,0 +1,41 @@
+//  3623. Count Number of Trapezoids I  //
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def countTrapezoids(self, points):
+        """
+        :type points: List[List[int]]
+        :rtype: int
+        """
+        from collections import defaultdict
+        MOD = 10**9 + 7
+        
+        y_groups = defaultdict(int)
+        for x, y in points:
+            y_groups[y] += 1
+        
+        pair_counts = []
+        for y in y_groups:
+            cnt = y_groups[y]
+            if cnt >= 2:
+                pair_counts.append(cnt * (cnt - 1) // 2)
+        
+        total_trapezoids = 0
+        s = sum(pair_counts)
+        
+        for p in pair_counts:
+            s -= p
+            total_trapezoids = (total_trapezoids + p * s) % MOD
+        
+        return total_trapezoids       
