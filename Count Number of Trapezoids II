@@ -1,0 +1,65 @@
+//  3625. Count Number of Trapezoids II  //
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def countTrapezoids(self, points):
+        """
+        :type points: List[List[int]]
+        :rtype: int
+        """
+
+        from collections import defaultdict
+        def gcd(a, b):
+            while b:
+                a, b = b, a % b
+            return abs(a)
+
+        n = len(points)
+        slope_dict = defaultdict(list)
+        
+        for i in range(n):
+            x1, y1 = points[i]
+            for j in range(i+1, n):
+                x2, y2 = points[j]
+                dx = x2 - x1
+                dy = y2 - y1
+
+                if dx == 0:
+                    dx = 0
+                    dy = 1
+                elif dy == 0:
+                    dx = 1
+                    dy = 0
+                else:
+                    g = gcd(dx, dy)
+                    dx //= g
+                    dy //= g
+                    if dx < 0:
+                        dx = -dx
+                        dy = -dy
+
+                slope_dict[(dx, dy)].append((i, j))
+        
+        result = 0
+        for slope in slope_dict:
+            pairs = slope_dict[slope]
+            m = len(pairs)
+            for a in range(m):
+                for b in range(a + 1, m):
+                    i1, j1 = pairs[a]
+                    i2, j2 = pairs[b]
+
+                    if i1 != i2 and i1 != j2 and j1 != i2 and j1 != j2:
+                        result += 1
+        
+        return result
