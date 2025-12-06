@@ -1,0 +1,62 @@
+//  3578. Count Partitions With Max-Min Difference at Most K //
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def countPartitions(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+
+        from collections import deque
+        MOD = 10**9 + 7
+        n = len(nums)
+
+        dp = [0] * n
+        prefix = [0] * n 
+        
+        maxdq = deque()  
+        mindq = deque()  
+        
+        left = 0
+
+        for i in range(n):
+          
+            while maxdq and maxdq[-1] < nums[i]:
+                maxdq.pop()
+            maxdq.append(nums[i])
+
+    
+            while mindq and mindq[-1] > nums[i]:
+                mindq.pop()
+            mindq.append(nums[i])
+
+        
+            while maxdq[0] - mindq[0] > k:
+        
+                if maxdq[0] == nums[left]:
+                    maxdq.popleft()
+                if mindq[0] == nums[left]:
+                    mindq.popleft()
+                left += 1
+
+  
+            if left == 0:
+                dp[i] = prefix[i-1] + 1 if i > 0 else 1
+            else:
+                dp[i] = (prefix[i-1] - prefix[left-2]) % MOD if left > 1 else prefix[i-1] % MOD
+
+            prefix[i] = (dp[i] + (prefix[i-1] if i > 0 else 0)) % MOD
+
+        return dp[n-1] % MOD
