@@ -1,0 +1,43 @@
+//   3531. Count Covered Buildings    //
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def countCoveredBuildings(self, n, buildings):
+        """
+        :type n: int
+        :type buildings: List[List[int]]
+        :rtype: int
+        """
+        from collections import defaultdict
+ 
+        row = defaultdict(list)
+        col = defaultdict(list)
+        
+        for x, y in buildings:
+            row[x].append(y)
+            col[y].append(x)
+        
+        for x in row:
+            row[x].sort()
+        for y in col:
+            col[y].sort()
+        
+        covered = 0
+        for x, y in buildings:
+            ys = row[x]     
+            xs = col[y]     
+            
+            if ys[0] < y < ys[-1] and xs[0] < x < xs[-1]:
+                covered += 1
+        
+        return covered
