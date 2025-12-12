@@ -1,0 +1,67 @@
+// 3433. Count Mentions Per User //
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def countMentions(self, numberOfUsers, events):
+        """
+        :type numberOfUsers: int
+        :type events: List[List[str]]
+        :rtype: List[int]
+        """
+        import heapq
+        
+        formatted = []
+        for e in events:
+            time = int(e[1])
+            if e[0] == "OFFLINE":
+                formatted.append((time, 0, e))
+            else:  
+                formatted.append((time, 1, e))
+        formatted.sort()
+        online = [True] * numberOfUsers
+        heap = []
+        
+        mentions = [0] * numberOfUsers
+        
+        for time, _, e in formatted:
+            
+            while heap and heap[0][0] <= time:
+                expire_time, uid = heapq.heappop(heap)
+                online[uid] = True
+            
+            event_type = e[0]
+            
+            if event_type == "OFFLINE":
+                uid = int(e[2])
+                if online[uid]:
+                    online[uid] = False
+                    heapq.heappush(heap, (time + 60, uid))
+            
+            else:  
+                tokens = e[2].split()
+                for tok in tokens:
+                    if tok == "ALL":
+                        for u in range(numberOfUsers):
+                            mentions[u] += 1
+                    
+                    elif tok == "HERE":
+                        for u in range(numberOfUsers):
+                            if online[u]:
+                                mentions[u] += 1
+                    
+                    elif tok.startswith("id"):
+                        uid = int(tok[2:])
+                        mentions[uid] += 1
+        
+        return mentions
