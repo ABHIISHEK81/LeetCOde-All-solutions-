@@ -1,0 +1,34 @@
+// 2147. Number of Ways to Divide a Long Corridor //
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def numberOfWays(self, corridor):
+        """
+        :type corridor: str
+        :rtype: int
+        """
+        MOD = 10**9 + 7
+
+        seats = [i for i, ch in enumerate(corridor) if ch == 'S']
+        
+        if len(seats) == 0 or len(seats) % 2 == 1:
+            return 0
+        
+        ways = 1
+        
+        for i in range(0, len(seats) - 2, 2):
+            plants_between = seats[i + 2] - seats[i + 1] - 1
+            ways = (ways * (plants_between + 1)) % MOD
+        
+        return ways
