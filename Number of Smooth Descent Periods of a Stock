@@ -1,0 +1,35 @@
+// 2110. Number of Smooth Descent Periods of a Stock  //
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def getDescentPeriods(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        n = len(prices)
+        if n == 0:
+            return 0
+
+        ans = 1
+        curr = 1
+
+        for i in range(1, n):
+            if prices[i] == prices[i-1] -1:
+                curr += 1
+            else:
+                curr = 1
+            ans += curr
+
+        return ans                
