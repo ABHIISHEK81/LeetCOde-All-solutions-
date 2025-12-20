@@ -1,0 +1,32 @@
+//  944. Delete Columns to Make Sorted  //
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def minDeletionSize(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: int
+        """
+        count = 0
+
+        for i in range(len(strs[0])):
+            last = 'a'
+
+            for letters in strs:
+                if letters[i] < last:
+                    count += 1
+                    break
+                last = letters[i]
+
+        return count            
