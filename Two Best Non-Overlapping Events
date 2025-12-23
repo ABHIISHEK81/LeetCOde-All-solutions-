@@ -1,0 +1,37 @@
+//  2054. Two Best Non-Overlapping Events   //
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def maxTwoEvents(self, events):
+        """
+        :type events: List[List[int]]
+        :rtype: int
+        """
+        events.sort(key=lambda x: x[0])
+				
+        by_end = sorted(events, key=lambda x: x[1])
+        
+        ans = 0
+        best_ended = 0
+        j = 0
+        n = len(events)
+        
+        for start, end, value in events:
+            while j < n and by_end[j][1] < start:
+                best_ended = max(best_ended, by_end[j][2])
+                j += 1
+            
+            ans = max(ans, value + best_ended)
+        
+        return ans
