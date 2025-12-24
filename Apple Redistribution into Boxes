@@ -1,0 +1,28 @@
+// 3074. Apple Redistribution into Boxes  //
+
+
+
+
+
+
+
+
+
+
+class Solution(object):
+    def minimumBoxes(self, apple, capacity):
+        """
+        :type apple: List[int]
+        :type capacity: List[int]
+        :rtype: int
+        """
+        s = sum(apple)
+        capacity.sort(reverse=True)
+        c = 0
+        for i in capacity:
+            if s > 0:
+                s -= i
+                c += 1
+            else:
+                break
+        return c
