@@ -1,0 +1,28 @@
+//  3075. Maximize Happiness of Selected Children  //
+
+
+
+
+
+
+
+
+class Solution(object):
+    def maximumHappinessSum(self, happiness, k):
+        """
+        :type happiness: List[int]
+        :type k: int
+        :rtype: int
+        """
+        happiness.sort(reverse = True)
+
+        ans = 0
+
+        for i in range(k):
+            curr = happiness[i] - i
+            if curr > 0:
+                ans += curr
+            else:
+                break
+
+        return ans            
