@@ -1,0 +1,36 @@
+//  66. Plus One  //
+
+
+
+class Solution(object):
+    def plusOne(self, digits):
+        """
+        :type digits: List[int]
+        :rtype: List[int]
+        """
+        res=0
+        if digits[len(digits)-1]!=9:
+            digits[len(digits)-1]+=1
+        else:
+            r=len(digits)-1
+            borr=0
+            while r>-1:
+                if digits[r]==9:
+                    digits[r]=0
+                    borr=1
+                elif borr==1:
+                    if digits[r]==9:
+                        digits[r]=0
+                        borr=1
+                    else:
+                        digits[r]+=borr
+                        borr=0
+                        break
+                r-=1
+            if borr==1:
+                digits.insert(0,borr)
+        return digits
+        
+
+
+
