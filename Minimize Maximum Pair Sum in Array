@@ -1,0 +1,16 @@
+// 1877. Minimize Maximum Pair Sum in Array //
+
+
+
+class Solution(object):
+    def minPairSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        nums.sort()
+        sum = []
+        for num in range(0,len(nums)):
+            sum.append(nums[num] + nums[len(nums)-num-1])
+        sum.sort(reverse = True)
+        return sum[0]
