@@ -1,0 +1,27 @@
+//  3379. Transformed Array  //
+
+
+class Solution(object):
+    def find(self, nums, ind, diff, n):
+        if nums[ind] > 0:
+            return nums[(ind + diff) % n]
+        elif nums[ind] < 0:
+            t1 = abs(diff) % n
+            t2 = ind - t1
+            if t2 >= 0:
+                return nums[t2]
+            else:
+                return nums[t2 + n]
+        else:
+            return nums[ind]
+            
+    def constructTransformedArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        n = len(nums)
+        result = [0] * n
+        for i in range(n):
+            result[i] = self.find(nums, i, nums[i], n)
+        return result
