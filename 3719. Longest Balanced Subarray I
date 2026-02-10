@@ -1,0 +1,28 @@
+//   3719. Longest Balanced Subarray I   //
+
+
+
+
+class Solution(object):
+    def longestBalanced(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        n = len(nums)
+        max_len = 0
+
+        for i in range(n):
+            odd_no = set()
+            even_no = set()
+
+            for j in range(i, n):
+                if nums[j] % 2 == 0:
+                    even_no.add(nums[j])
+                else:
+                    odd_no.add(nums[j])
+                    
+                if len(odd_no) == len(even_no):
+                    max_len = max(max_len, j - i + 1)
+
+        return max_len
