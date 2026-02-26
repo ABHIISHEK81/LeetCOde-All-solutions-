@@ -1,0 +1,19 @@
+//  1404. Number of Steps to Reduce a Number in Binary Representation to One // 
+
+
+
+class Solution(object):
+    def numSteps(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        n=int(s,2);
+        cnt=0;
+        while(n!=1):
+            if(n%2==0):
+                n/=2;
+            else:
+                n+=1;
+            cnt+=1;
+        return cnt;
