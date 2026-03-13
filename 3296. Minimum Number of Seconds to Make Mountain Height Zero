@@ -1,0 +1,42 @@
+//  3296. Minimum Number of Seconds to Make Mountain Height Zero  //
+
+
+
+
+import math
+
+class Solution(object):
+    def minNumberOfSeconds(self, mountainHeight, workerTimes):
+        """
+        :type mountainHeight: int
+        :type workerTimes: List[int]
+        :rtype: int
+        """
+
+        def can(time):
+            total = 0
+            
+            for w in workerTimes:
+                val = (2 * time) // w
+                x = int((math.sqrt(1 + 4 * val) - 1) // 2)
+                total += x
+                
+                if total >= mountainHeight:
+                    return True
+            
+            return False
+
+        left = 0
+        right = max(workerTimes) * mountainHeight * (mountainHeight + 1) // 2
+        ans = right
+
+        while left <= right:
+            mid = (left + right) // 2
+
+            if can(mid):
+                ans = mid
+                right = mid - 1
+            else:
+                left = mid + 1
+
+        return ans
