@@ -1,0 +1,49 @@
+//    1878. Get Biggest Three Rhombus Sums in a Grid    //  
+
+
+
+class Solution(object):
+    def getBiggestThree(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: List[int]
+        """
+        m = len(grid)
+        n = len(grid[0])
+        
+        sums = set()
+        
+        for r in range(m):
+            for c in range(n):
+                
+                sums.add(grid[r][c])
+                
+                k = 1
+                while True:
+                    if r-k < 0 or r+k >= m or c-k < 0 or c+k >= n:
+                        break
+                    
+                    total = 0
+                    
+                    i, j = r-k, c
+                    for d in range(k):
+                        total += grid[i+d][j+d]
+                    
+                    i, j = r, c+k
+                    for d in range(k):
+                        total += grid[i+d][j-d]
+                    
+                    i, j = r+k, c
+                    for d in range(k):
+                        total += grid[i-d][j-d]
+                    
+               
+                    i, j = r, c-k
+                    for d in range(k):
+                        total += grid[i-d][j+d]
+                    
+                    sums.add(total)
+                    
+                    k += 1
+        
+        return sorted(sums, reverse=True)[:3]
