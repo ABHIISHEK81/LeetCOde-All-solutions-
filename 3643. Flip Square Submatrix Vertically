@@ -1,0 +1,19 @@
+//     3643. Flip Square Submatrix Vertically      //
+
+
+
+class Solution(object):
+    def reverseSubmatrix(self, grid, x, y, k):
+        """
+        :type grid: List[List[int]]
+        :type x: int
+        :type y: int
+        :type k: int
+        :rtype: List[List[int]]
+        """
+        for i in range(k // 2):
+            for j in range(y, y + k):
+                grid[x + i][j], grid[x + k - 1 - i][j] = \
+                grid[x + k - 1 - i][j], grid[x + i][j]
+        
+        return grid
