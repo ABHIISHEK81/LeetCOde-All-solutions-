@@ -1,0 +1,28 @@
+//   2515. Shortest Distance to Target String in a Circular Array  //
+
+
+
+class Solution(object):
+    def closestTarget(self, words, target, startIndex):
+        """
+        :type words: List[str]
+        :type target: str
+        :type startIndex: int
+        :rtype: int
+        """
+        distance = 0 
+        n = len(words)
+        i = startIndex
+        j = (startIndex + 1) % n
+
+        while distance < n:
+            if words[i] == target:
+                return distance
+            if words [j] == target:
+                distance += 1
+                return distance
+            distance += 1
+            i = (i - 1 + n) % n
+            j = (j + 1) % n
+
+        return -1     
