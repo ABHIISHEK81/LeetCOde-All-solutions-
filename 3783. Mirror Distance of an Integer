@@ -1,0 +1,12 @@
+//  3783. Mirror Distance of an Integer  //
+
+
+
+class Solution(object):
+    def mirrorDistance(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        revn=str(n)[::-1]
+        return abs(n-int(revn))
