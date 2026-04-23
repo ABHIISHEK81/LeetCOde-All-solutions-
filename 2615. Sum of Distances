@@ -1,0 +1,36 @@
+//   2615. Sum of Distances   //
+
+
+
+class Solution(object):
+    def distance(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        from collections import defaultdict
+
+        groups = defaultdict(list)
+        for i, val in enumerate(nums):
+            groups[val].append(i)
+
+        n = len(nums)
+        ans = [0] * n
+        
+        for positions in groups.values():
+            size = len(positions)
+
+            prefix = [0] * (size  +1)
+            for i in range(size):
+                prefix[i + 1] = prefix[i] + positions[i]
+
+            for i in range(size):
+                pos = positions[i]
+
+                left = pos*i - prefix[i]
+
+                right = (prefix[size] - prefix[i+1]) - pos * (size-i-1)
+
+                ans[pos] = left + right
+
+        return ans        
