@@ -1,0 +1,33 @@
+//     3225. Maximum Score From Grid Operations         //
+
+
+
+class Solution(object):
+    def maximumScore(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        n = len(grid)
+        pf = [[0] * (n + 1) for _ in range(n)]
+        
+        for j in range(n):
+            for i in range(n):
+                pf[j][i + 1] = pf[j][i] + grid[i][j]
+
+        dp = [[0] * 2 for _ in range(n + 1)]
+        
+        for i in range(n - 1, -1, -1):
+            new_dp = [[0] * 2 for _ in range(n + 1)]
+            for last in range(n + 1):
+                for bigger in range(2):
+                    for l in range(n + 1):
+                        score = 0
+                        if l < last:
+                            score = pf[i][last] - pf[i][l]
+                        elif l > last and bigger and i > 0:
+                            score = pf[i - 1][l] - pf[i - 1][last]
+                        new_dp[last][bigger] = max(new_dp[last][bigger], score + dp[l][l >= last])
+            dp = new_dp
+
+        return max(dp[0][0], dp[0][1])
