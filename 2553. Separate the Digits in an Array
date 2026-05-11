@@ -1,0 +1,19 @@
+//   2553. Separate the Digits in an Array  //
+
+
+
+
+class Solution(object):
+    def separateDigits(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        result = []
+        for num in nums[::-1]:
+            while num > 0:
+                result.append (num % 10)
+
+                num = num // 10
+
+        return result[::-1]        
