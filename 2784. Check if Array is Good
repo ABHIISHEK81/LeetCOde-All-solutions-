@@ -1,0 +1,16 @@
+//  2784. Check if Array is Good  //
+
+
+
+class Solution(object):
+    def isGood(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        n = len(nums)-1
+        nums.sort()
+        for i in range(n):
+            if nums[i] !=  i+1:
+                return False
+        return nums[n-1]==nums[n]==n        
