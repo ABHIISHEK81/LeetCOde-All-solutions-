@@ -1,0 +1,25 @@
+//  3120. Count the Number of Special Characters I  //
+
+
+
+class Solution(object):
+    def numberOfSpecialChars(self, word):
+        """
+        :type word: str
+        :rtype: int
+        """
+        lower=set()
+        upper=set()
+        count=0 
+        for ch in word:
+            if ch.islower():
+                lower.add(ch)
+            else:
+               upper.add(ch.lower())
+        for ch in lower:
+            if ch in upper:
+                count+=1
+
+               
+                
+        return count
