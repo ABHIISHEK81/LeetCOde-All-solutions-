@@ -1,0 +1,51 @@
+//  3093. Longest Common Suffix Queries  //
+
+
+
+class Solution(object):
+    def stringIndices(self, wordsContainer, wordsQuery):
+        """
+        :type wordsContainer: List[str]
+        :type wordsQuery: List[str]
+        :rtype: List[int]
+        """
+        best_default = 0
+        for i in range(len(wordsContainer)):
+            if len(wordsContainer[i]) < len(wordsContainer[best_default]):
+                best_default = i
+                
+        def is_better(new_idx, current_best_idx):
+            len_new = len(wordsContainer[new_idx])
+            len_cur = len(wordsContainer[current_best_idx])
+            if len_new < len_cur:
+                return True
+            if len_new == len_cur and new_idx < current_best_idx:
+                return True
+            return False
+
+        trie = {} 
+        for i, word in enumerate(wordsContainer):
+            node = trie
+            for char in reversed(word):
+                if char not in node:
+                    node[char] = {'_best': i}
+                else:
+                    if is_better(i, node[char]['_best']):
+                        node[char]['_best'] = i
+             
+                node = node[char]
+        ans = []
+        for query in wordsQuery:
+            node = trie
+            best_match = best_default
+
+            for char in reversed(query):
+                if char in node:
+                    node = node[char]
+                    best_match = node['_best'] 
+                else:
+                    break 
+                    
+            ans.append(best_match)
+            
+        return ans
