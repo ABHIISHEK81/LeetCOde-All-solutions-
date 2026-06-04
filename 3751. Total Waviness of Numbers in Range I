@@ -1,0 +1,30 @@
+//  3751. Total Waviness of Numbers in Range I  //
+
+
+
+class Solution(object):
+    def totalWaviness(self, num1, num2):
+        """
+        :type num1: int
+        :type num2: int
+        :rtype: int
+        """
+        count = 0
+
+        for x in range(num1, num2 + 1):
+            num = x
+            digits = []
+
+            while num > 0:
+                digits.append(num % 10)
+                num //= 10
+
+            digits.reverse()
+
+            for i in range(1, len(digits) - 1):
+                if digits[i] > digits[i - 1] and digits[i] > digits[i + 1]:
+                    count += 1
+                elif digits[i] < digits[i - 1] and digits[i] < digits[i + 1]:
+                    count += 1
+
+        return count
