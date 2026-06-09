@@ -1,0 +1,22 @@
+//  3689. Maximum Total Subarray Value I  //
+
+
+
+class Solution(object):
+    def maxTotalValue(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        mn = nums[0]
+        mx = nums[0]
+        ans = 0
+
+        for x in nums[1:]:
+            mn = min(mn, x)
+            mx = max(mx, x)
+
+            ans = max(ans, mx - mn)
+
+        return ans * k
