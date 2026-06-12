@@ -1,0 +1,64 @@
+//  3559. Number of Ways to Assign Edge Weights II  //
+
+
+
+class Solution(object):
+    def assignEdgeWeights(self, edges, queries):
+        """
+        :type edges: List[List[int]]
+        :type queries: List[List[int]]
+        :rtype: List[int]
+        """
+        from collections import defaultdict
+        graph = defaultdict(list)
+        for i, j in edges:
+            graph[i].append(j)
+            graph[j].append(i)
+            
+        parent = defaultdict(int)
+        q = [1]
+        parent[1] = -1
+        mask = 0
+        mask = mask | 1 << 1
+        
+        while q:
+            n_q = []
+            for node in q:
+                for nei in graph[node]:
+                    if (mask & (1 << nei)) == 0:
+                        parent[nei] = node
+                        mask = mask | 1 << nei
+                        n_q.append(nei)
+            q = n_q
+        
+        def LCA(i, j):
+            path1 = set()
+            x1 = i
+            x2 = j
+            
+            while x1 != -1:
+                path1.add(x1)
+                x1 = parent[x1]
+            l2 = 0
+            while x2 not in path1 and x2 != i:
+                x2 = parent[x2]
+                l2 += 1
+            
+            LCA_node = x2
+            
+            l1 = 0
+            while i != LCA_node:
+                i = parent[i]
+                l1 += 1
+            
+            return l1 + l2
+        
+        res = []
+        for i, j in queries:
+            height = LCA(i, j)
+            if i == j:
+                res.append(0)
+                continue
+            res.append((2**(height-1)) % ((10**9) + 7))
+        
+        return res
