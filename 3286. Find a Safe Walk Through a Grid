@@ -1,0 +1,44 @@
+//  3286. Find a Safe Walk Through a Grid  //
+
+
+
+class Solution(object):
+    def findSafeWalk(self, grid, health):
+        """
+        :type grid: List[List[int]]
+        :type health: int
+        :rtype: bool
+        """
+        m = len(grid)
+        n = len(grid[0])
+        
+        if grid[0][0] == 1:
+            health -= 1
+            
+        grid[0][0] = -1
+        safe_cells = deque([(0, 0, health)])
+        danger_cells = deque()
+        
+        while health > 0:
+            if safe_cells:  
+                r, c, health = safe_cells.popleft()
+            elif danger_cells:
+                r, c, health = danger_cells.popleft()
+            else:
+                return False
+            
+            if health > (m-1-r) + (n-1-c):  
+                return True
+            
+            for dr, dc in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
+                new_r, new_c = r+dr, c+dc
+                if new_r < 0 or new_r >= m or new_c < 0 or new_c >= n or grid[new_r][new_c] < 0:
+                    continue
+                if grid[new_r][new_c] == 0:
+                    safe_cells.append((new_r, new_c, health))
+                elif health > 1:   
+                    danger_cells.append((new_r, new_c, health-1))
+                
+                grid[new_r][new_c] = -1 
+        
+        return False
