@@ -1,0 +1,32 @@
+//  2492. Minimum Score of a Path Between Two Cities  //
+
+
+
+class Solution(object):
+    def minScore(self, n, roads):
+        """
+        :type n: int
+        :type roads: List[List[int]]
+        :rtype: int
+        """
+        adj = [[] for _ in range(n + 1)]
+
+        for u, v, w in roads:
+            adj[u].append((v, w))
+            adj[v].append((u, w))
+
+        self.ans = float('inf')
+        vis = [False] * (n + 1)
+
+        def dfs(node):
+            vis[node] = True
+
+            for nxt, wt in adj[node]:
+                self.ans = min(self.ans, wt)
+
+                if not vis[nxt]:
+                    dfs(nxt)
+
+        dfs(1)
+
+        return self.ans
