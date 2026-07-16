@@ -1,0 +1,27 @@
+//  3867. Sum of GCD of Formed Pairs //
+
+
+
+class Solution(object):
+    def gcdSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        def gcd(a, b):
+            while b:
+                a, b = b, a % b
+            return a
+
+        mx = nums[0]
+        prefixGcd = []
+        n = len(nums)
+        for i in range(n):
+            mx = max(mx, nums[i])
+            prefixGcd.append(gcd(nums[i], mx))
+
+        prefixGcd.sort()
+        sum_gcd = 0
+        for i in range(n//2):
+            sum_gcd += gcd(prefixGcd[i], prefixGcd[n-i-1])
+        return sum_gcd            
