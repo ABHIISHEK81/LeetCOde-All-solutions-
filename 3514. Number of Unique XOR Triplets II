@@ -1,0 +1,21 @@
+//  3514. Number of Unique XOR Triplets II  //
+
+
+
+class Solution(object):
+    def uniqueXorTriplets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        x=list(set(nums))
+        n=len(x)
+        p=set()
+        for i in range(n):
+            for j in range(i, n):
+                p.add(x[i]^x[j])
+        y=set()
+        for i in p:
+            for k in x:
+                y.add(i^k)
+        return len(y)
