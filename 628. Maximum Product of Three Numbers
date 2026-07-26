@@ -1,0 +1,24 @@
+//  628. Maximum Product of Three Numbers  //
+
+
+
+class Solution(object):
+    def maximumProduct(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        nums.sort()
+        c1,c2,c3=nums[0],nums[1],nums[-1]
+        x1=c1*c2*c3
+
+        c1,c2,c3=nums[-1],nums[0],nums[1]
+        x2=c1*c2*c3
+
+        c1,c2,c3=nums[-1],nums[-2],nums[-3]
+        x3=c1*c2*c3
+
+        c1,c2,c3=nums[0],nums[-1],nums[1]
+        x4=c1*c2*c3
+
+        return max(x1,x2,x3,x4)
