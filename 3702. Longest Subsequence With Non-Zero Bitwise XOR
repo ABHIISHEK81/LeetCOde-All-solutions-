@@ -1,0 +1,28 @@
+//  3702. Longest Subsequence With Non-Zero Bitwise XOR   //
+
+
+
+class Solution(object):
+    def longestSubsequence(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        n = len(nums)
+        xor1 = 0
+        seen = False
+
+        for it in nums:
+            xor1 ^= it
+
+         
+            if it != 0:
+                seen = True
+
+       
+        if xor1 != 0:
+            return n
+        elif xor1 == 0 and not seen:  
+            return 0
+        else:
+            return n - 1 
