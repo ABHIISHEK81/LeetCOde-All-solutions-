@@ -1,0 +1,27 @@
+//  1386. Cinema Seat Allocation  //
+
+
+
+
+class Solution(object):
+    def maxNumberOfFamilies(self, n, reservedSeats):
+        """
+        :type n: int
+        :type reservedSeats: List[List[int]]
+        :rtype: int
+        """
+        s = {}
+        for x in reservedSeats:
+            if x[0] not in s.keys(): 
+                 s[x[0]] = [0,0,0]
+            if x[1] in [2,3,4,5]:
+                s[x[0]][0] = 1
+            if x[1] in [6,7,8,9]:
+                s[x[0]][2] = 1
+            if x[1] in [4,5,6,7]:
+                s[x[0]][1] = 1
+        
+        ans = 0
+        for k in s.keys():
+            ans += 2 if s[k][0] == 0 and s[k][2] == 0 else 1 if s[k].count(0) > 0 else 0
+        return ans + (n - len(s.keys())) * 2
