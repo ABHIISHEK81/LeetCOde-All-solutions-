@@ -1,0 +1,11 @@
+//   1111. Maximum Nesting Depth of Two Valid Parentheses Strings  //
+
+
+
+class Solution(object):
+    def maxDepthAfterSplit(self, seq):
+        """
+        :type seq: str
+        :rtype: List[int]
+        """
+        return [(i + (c == '(')) % 2 for i, c in enumerate(seq)]
