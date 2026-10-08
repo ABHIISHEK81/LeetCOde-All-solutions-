@@ -1,0 +1,21 @@
+1021. Remove Outermost Parentheses
+
+
+
+class Solution(object):
+    def removeOuterParentheses(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        res, lvl = [], 0
+
+        for c in s:
+            if c == ")":
+                lvl -= 1
+            if lvl > 0:
+                res.append(c)
+            if c == "(":
+                lvl += 1
+                
+        return "".join(res)
