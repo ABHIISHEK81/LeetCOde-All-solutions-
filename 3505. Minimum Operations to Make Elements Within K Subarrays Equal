@@ -1,0 +1,100 @@
+//  3505. Minimum Operations to Make Elements Within K Subarrays Equal  //
+
+
+
+class Solution(object):
+    def minOperations(self, nums, x, k):
+        """
+        :type nums: List[int]
+        :type x: int
+        :type k: int
+        :rtype: int
+        """
+        n = len(nums)
+        arr = sorted(set(nums))
+        m = len(arr)
+        pos = {v: i + 1 for i, v in enumerate(arr)}
+
+        count = [0] * (m + 1)
+        total = [0] * (m + 1)
+
+        def update(bit, i, val):
+            while i <= m:
+                bit[i] += val
+                i += i & -i
+
+        def query(bit, i):
+            s = 0
+            while i > 0:
+                s += bit[i]
+                i -= i & -i
+            return s
+
+        def find_median():
+            target = (x + 1) // 2
+            i = 0
+            step = 1 << (m.bit_length() - 1)
+
+            while step > 0:
+                j = i + step
+
+                if j <= m and count[j] < target:
+                    target -= count[j]
+                    i = j
+
+                step //= 2
+
+            return arr[i]
+
+        def get_cost(window_sum):
+            mid = find_median()
+            p = pos[mid]
+
+            left_count = query(count, p)
+            left_sum = query(total, p)
+
+            right_count = x - left_count
+            right_sum = window_sum - left_sum
+
+            return (mid * left_count - left_sum +
+                    right_sum - mid * right_count)
+
+        window_sum = 0
+
+        for i in range(x):
+            update(count, pos[nums[i]], 1)
+            update(total, pos[nums[i]], nums[i])
+            window_sum += nums[i]
+
+        costs = []
+
+        for i in range(n - x + 1):
+            costs.append(get_cost(window_sum))
+
+            if i + x < n:
+                update(count, pos[nums[i]], -1)
+                update(total, pos[nums[i]], -nums[i])
+
+                update(count, pos[nums[i + x]], 1)
+                update(total, pos[nums[i + x]], nums[i + x])
+
+                window_sum += nums[i + x] - nums[i]
+
+        INF = float('inf')
+        prev = [0] * (n + 1)
+
+        for j in range(1, k + 1):
+            curr = [INF] * (n + 1)
+
+            for i in range(1, n + 1):
+                curr[i] = curr[i - 1]
+
+                if i >= x:
+                    curr[i] = min(
+                        curr[i],
+                        prev[i - x] + costs[i - x]
+                    )
+
+            prev = curr
+
+        return prev[n]
