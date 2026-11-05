@@ -1,0 +1,16 @@
+//  1385. Find the Distance Value Between Two Arrays   //
+
+
+
+class Solution(object):
+    def findTheDistanceValue(self, arr1, arr2, d):
+        """
+        :type arr1: List[int]
+        :type arr2: List[int]
+        :type d: int
+        :rtype: int
+        """
+        def far(a):  
+            return all(abs(a - b) > d for b in arr2)
+
+        return sum(map(far, arr1))
