@@ -1,0 +1,89 @@
+/  1606. Find Servers That Handled Most Number of Requests /
+
+
+
+from sortedcontainers import SortedSet
+
+class Solution(object):
+    def busiestServers(self, k, arrival, load):
+        """
+        :type k: int
+        :type arrival: List[int]
+        :type load: List[int]
+        :rtype: List[int]
+        """
+        servers = list()
+        emptyServers = SortedSet()
+        handledRequestsCounter = list()
+        for i in range(k):
+            servers.append([])
+            
+            emptyServers.add(i)
+            handledRequestsCounter.append(0)
+   
+        lastProcessedRequest = None
+
+        processingRequests = dict()
+
+        timeSet = set()
+        for i, arrivalTime in enumerate(arrival):
+            timeSet.add(arrivalTime)
+            timeSet.add(arrivalTime + load[i])
+
+        timeList = sorted(timeSet)
+        
+        for time in timeList:
+            if time in processingRequests:
+                for server in processingRequests[time]:
+                    handledRequestsCounter[server] += 1
+                    del servers[server][:]
+                    emptyServers.add(server)
+                else:
+                    processingRequests.pop(time)
+                    
+            if lastProcessedRequest is None:
+                i = 0
+            else:
+                i = lastProcessedRequest + 1
+          
+            if i >= len(arrival):
+                continue
+
+            arrivalTime = arrival[i]
+            
+            if arrivalTime == time:
+
+                if len(servers[i%k]) == 0:
+                    servers[i%k].extend((i, time))
+                    emptyServers.remove(i%k)
+                    try:
+                        processingRequests[arrivalTime + load[i]].append(i%k)
+                    except KeyError:
+                        processingRequests[arrivalTime + load[i]] = [i%k]
+
+                elif len(emptyServers) > 0:
+                    if emptyServers[-1] < i%k:
+                        server = emptyServers[0]
+                        servers[server].extend((i, time))
+                        emptyServers.pop(0)
+                        try:
+                            processingRequests[arrivalTime + load[i]].append(server)
+                        except KeyError:
+                            processingRequests[arrivalTime + load[i]] = [server]
+                    else:
+                        v = emptyServers.bisect_left(i%k)
+                        server = emptyServers[v]
+                        servers[server].extend((i, time))
+                        emptyServers.pop(v)
+                        try:
+                            processingRequests[arrivalTime + load[i]].append(server)
+                        except KeyError:
+                            processingRequests[arrivalTime + load[i]] = [server]
+
+                lastProcessedRequest = i
+
+            
+        maximumHandledRequests = max(handledRequestsCounter)
+        busiestServers = [server for server, n in enumerate(handledRequestsCounter) if n == maximumHandledRequests]
+
+        return busiestServers
