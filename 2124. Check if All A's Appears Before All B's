@@ -1,0 +1,17 @@
+//   2124. Check if All A's Appears Before All B's    //
+
+
+
+class Solution(object):
+    def checkString(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        seenB = False
+        for c in s:
+            if c == 'b':
+                seenB = True
+            elif seenB:
+                return False
+        return True
